@@ -5,13 +5,12 @@
 
 ## Docker:
 ```
-mkdir data # creates a folder for your data
-
-ID=$(id -u) # saves your user id in the ID variable
+mkdir data
 
 docker run \
   -d \
-  --user $ID \
+  -e USER=$USER \
+  -e USERID=$UID \
   -e GF_SECURITY_ADMIN_USER=USERNAME_GOES_HERE \
   -e GF_SECURITY_ADMIN_PASSWORD=PASSWORD_GOES_HERE \
   --name=grafana \
@@ -21,10 +20,16 @@ docker run \
   grafana/grafana
 ```
 
-Go to localhost:3000 and enter your credentials from above.
+Go to localhost:9003 and enter your credentials from above the GF_SECURITY_ADMIN_USER and GF_SECURITY_ADMIN_PASSWORD.
 
 ## Notes:
 1. Change your username/password in the environment variables above.
 2. Make sure you have the defaults.ini file.
 3. Change the port to access grafana via changing `3000:3000`. Example: `9003:3000` then look at localhost:9003
 4. If you are using a database, ensure that you have a user setup with only read (SELECT) access.
+5. To change the password in grafana, log in as the admin and go to Server Admin > User then click on the user.
+6. To add a user in grafana (such as a guest), log in as the admin and go to Server Admin > User > New User .
+
+## Next Steps:
+1. Include Prometheus in your projects for the PEG stack.
+2. Include an Exporter (ex: Node-Exporter) for the PEG stack.
