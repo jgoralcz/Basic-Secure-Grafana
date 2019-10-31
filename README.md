@@ -11,6 +11,8 @@ docker run \
   -d \
   -e USER=$USER \
   -e USERID=$UID \
+  --memory="1024m" \
+  --cpu-shares=512 \
   -e GF_SECURITY_ADMIN_USER=USERNAME_GOES_HERE \
   -e GF_SECURITY_ADMIN_PASSWORD=PASSWORD_GOES_HERE \
   --name=grafana \
@@ -29,6 +31,7 @@ Go to localhost:9003 and enter your credentials from above the GF_SECURITY_ADMIN
 4. If you are using a database, ensure that you have a user setup with only read (SELECT) access.
 5. To change the password in grafana, log in as the admin and go to Server Admin > User then click on the user.
 6. To add a user in grafana (such as a guest), log in as the admin and go to Server Admin > User > New User .
+7. If you restart the server with different username/password, the changes won't be made because of the volume we made with data. It is stored. You can either remove the data directory (you'd lose everything) or you can change the password and create a user in grafana.
 
 ## Next Steps:
 1. Include Prometheus in your projects for the PEG stack.
