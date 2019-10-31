@@ -9,14 +9,17 @@ mkdir data
 
 docker run \
   -d \
-  -e USER=$USER \
-  -e USERID=$UID \
+  -e UID=$(id -u) \
+  -e GID=$(id -g) \
+  --user=$UID:$GID  \
   --memory="1024m" \
   --cpu-shares=512 \
-  -e GF_SECURITY_ADMIN_USER=USERNAME_GOES_HERE \
+  -e GF_SECURITY_ADMIN_USER=$USER \
   -e GF_SECURITY_ADMIN_PASSWORD=PASSWORD_GOES_HERE \
   --name=grafana \
   -p 9003:3000 \
+  -v /etc/passwd:/etc/passwd # not necessary \
+  -v /etc/group:/etc/group # not necessary\
   -v "$PWD/data:/var/lib/grafana" \
   -v "$PWD/defaults.ini:/usr/share/grafana/defaults.ini" \
   grafana/grafana
